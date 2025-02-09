@@ -3,25 +3,26 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Currency Converter: USD to BRL</title>
+    <title>Currency Converter</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <div class="converter-container">
       <h1>Currency Converter</h1>
+      <input type="number" id="amount" placeholder="Enter amount" />
 
-      <div class="input-section">
-        <input type="number" id="amount" placeholder="Enter amount" min="0" />
-
-        <select id="currency-selector">
-          <option value="USD">US Dollars (USD)</option>
-          <option value="BRL">Brazilian Reais (BRL)</option>
-        </select>
-
-        <button>Convert</button>
+      <div class="grid">
+        <div class="currency-label" id="label-brl">BRL</div>
+        <button id="switch-button">&#x21C4; Switch</button>
+        <div class="currency-label" id="label-usd">USD</div>
       </div>
 
-      <div class="result" id="result-text"></div>
+      <button id="convert-button" style="width: 100%; margin-top: 1rem">
+        Convert
+      </button>
+      <p id="result" style="margin-top: 1rem; font-size: 1.1rem"></p>
     </div>
+
+    <script src="script.js"></script>
   </body>
 </html>
