@@ -20,13 +20,30 @@ document
       return;
     }
 
-    const conversionRate = isBrlToUsd ? 0.2 : 5.0;
+    const baseCurrency = isBrlToUsd ? "BRL" : "USD";
+    const targetCurrency = isBrlToUsd ? "USD" : "BRL";
 
-    const convertedAmount = amount * conversionRate;
-    const currencyFrom = isBrlToUsd ? "BRL" : "USD";
-    const currencyTo = isBrlToUsd ? "USD" : "BRL";
+    try {
+      const response = await fetch(
+        `https://api.exchangerate-api.com/v4/latest/${baseCurrency}`
+      );
 
-    document.getElementById("result").textContent = `${amount.toFixed(
-      2
-    )} ${currencyFrom} = ${convertedAmount.toFixed(2)} ${currencyTo}`;
+      if (!response.ok) {
+        throw new Error("Failed to fetch exchange rates");
+      }
+
+      const data = await response.json();
+      const conversionRate = data.rates[targetCurrency];
+
+      if (!conversionRate) {
+        throw new Error(`Rate not available for ${targetCurrency}`);
+      }
+
+      const convertedAmount = amount * conversionRate;
+      document.getElementById("result").textContent = `${amount.toFixed(
+        2
+      )} ${baseCurrency} = ${convertedAmount.toFixed(2)} ${targetCurrency}`;
+    } catch (error) {
+      alert(`Error: ${error.message}`);
+    }
   });
