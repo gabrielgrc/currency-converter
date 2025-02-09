@@ -5,8 +5,11 @@ function switchLabels() {
 
   const brlLabel = document.getElementById("label-brl");
   const usdLabel = document.getElementById("label-usd");
-  
-  [brlLabel.textContent, usdLabel.textContent] = [usdLabel.textContent, brlLabel.textContent];
+
+  [brlLabel.textContent, usdLabel.textContent] = [
+    usdLabel.textContent,
+    brlLabel.textContent,
+  ];
 }
 
 async function fetchExchangeRate(baseCurrency, targetCurrency) {
@@ -24,7 +27,7 @@ async function fetchExchangeRate(baseCurrency, targetCurrency) {
 
     if (!rate) throw new Error(`Rate not available for ${targetCurrency}`);
     return rate;
-  } catch(error) {
+  } catch (error) {
     alert(`Error: ${error.message}`);
     return null;
   }
@@ -46,6 +49,8 @@ async function handleCurrencyConversion() {
 
   if (conversionRate) {
     const convertedAmount = amount * conversionRate;
-    document.getElementById("result").textContent = `${amount.toFixed(2)} ${baseCurrency} = ${convertedAmount.toFixed(2)} ${targetCurrency}`;
+    document.getElementById("result").textContent = `${amount.toFixed(
+      2
+    )} ${baseCurrency} = ${convertedAmount.toFixed(2)} ${targetCurrency}`;
   }
 }
