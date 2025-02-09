@@ -13,11 +13,17 @@
 
       <div class="grid">
         <div class="currency-label" id="label-brl">BRL</div>
-        <button id="switch-button">&#x21C4; Switch</button>
+        <button id="switch-button" onclick="switchLabels()">
+          &#x21C4; Switch
+        </button>
         <div class="currency-label" id="label-usd">USD</div>
       </div>
 
-      <button id="convert-button" style="width: 100%; margin-top: 1rem">
+      <button
+        id="convert-button"
+        onclick="handleCurrencyConversion()"
+        style="width: 100%; margin-top: 1rem"
+      >
         Convert
       </button>
       <p id="result" style="margin-top: 1rem; font-size: 1.1rem"></p>

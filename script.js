@@ -1,49 +1,51 @@
 let isBrlToUsd = true;
 
-document.getElementById("switch-button").addEventListener("click", () => {
+function switchLabels() {
   isBrlToUsd = !isBrlToUsd;
 
   const brlLabel = document.getElementById("label-brl");
   const usdLabel = document.getElementById("label-usd");
-  const brlText = brlLabel.textContent;
-  brlLabel.textContent = usdLabel.textContent;
-  usdLabel.textContent = brlText;
-});
+  
+  [brlLabel.textContent, usdLabel.textContent] = [usdLabel.textContent, brlLabel.textContent];
+}
 
-document
-  .getElementById("convert-button")
-  .addEventListener("click", async () => {
-    const amount = parseFloat(document.getElementById("amount").value);
+async function fetchExchangeRate(baseCurrency, targetCurrency) {
+  try {
+    const response = await fetch(
+      `https://api.exchangerate-api.com/v4/latest/${baseCurrency}`
+    );
 
-    if (isNaN(amount) || amount <= 0) {
-      alert("Please enter a valid amount");
-      return;
+    if (!response.ok) {
+      throw new Error("Failed to fetch exchange rates");
     }
 
-    const baseCurrency = isBrlToUsd ? "BRL" : "USD";
-    const targetCurrency = isBrlToUsd ? "USD" : "BRL";
+    const data = await response.json();
+    const rate = data.rates[targetCurrency];
 
-    try {
-      const response = await fetch(
-        `https://api.exchangerate-api.com/v4/latest/${baseCurrency}`
-      );
+    if (!rate) throw new Error(`Rate not available for ${targetCurrency}`);
+    return rate;
+  } catch(error) {
+    alert(`Error: ${error.message}`);
+    return null;
+  }
+}
 
-      if (!response.ok) {
-        throw new Error("Failed to fetch exchange rates");
-      }
+async function handleCurrencyConversion() {
+  const amountInput = document.getElementById("amount").value;
+  const amount = parseFloat(amountInput);
 
-      const data = await response.json();
-      const conversionRate = data.rates[targetCurrency];
+  if (isNaN(amount) || amount <= 0) {
+    alert("Please enter a valid amount");
+    return;
+  }
 
-      if (!conversionRate) {
-        throw new Error(`Rate not available for ${targetCurrency}`);
-      }
+  const baseCurrency = isBrlToUsd ? "BRL" : "USD";
+  const targetCurrency = isBrlToUsd ? "USD" : "BRL";
 
-      const convertedAmount = amount * conversionRate;
-      document.getElementById("result").textContent = `${amount.toFixed(
-        2
-      )} ${baseCurrency} = ${convertedAmount.toFixed(2)} ${targetCurrency}`;
-    } catch (error) {
-      alert(`Error: ${error.message}`);
-    }
-  });
+  const conversionRate = await fetchExchangeRate(baseCurrency, targetCurrency);
+
+  if (conversionRate) {
+    const convertedAmount = amount * conversionRate;
+    document.getElementById("result").textContent = `${amount.toFixed(2)} ${baseCurrency} = ${convertedAmount.toFixed(2)} ${targetCurrency}`;
+  }
+}
