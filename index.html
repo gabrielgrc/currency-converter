@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Currency Converter: USD to BRL</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="converter-container">
+      <h1>Currency Converter</h1>
+
+      <div class="input-section">
+        <input type="number" id="amount" placeholder="Enter amount" min="0" />
+
+        <select id="currency-selector">
+          <option value="USD">US Dollars (USD)</option>
+          <option value="BRL">Brazilian Reais (BRL)</option>
+        </select>
+
+        <button>Convert</button>
+      </div>
+
+      <div class="result" id="result-text"></div>
+    </div>
+  </body>
+</html>
