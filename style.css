@@ -48,3 +48,11 @@ button:hover {
   font-size: 1.2rem;
   font-weight: bold;
 }
+
+.currency-select {
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  width: 100%;
+  font-size: 1rem;
+}
