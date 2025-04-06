@@ -1,16 +1,25 @@
 let isBrlToUsd = true;
 
-function switchLabels() {
-  isBrlToUsd = !isBrlToUsd;
+function switchCurrencies() {
+  const fromCurrency = document.getElementById("from-currency");
+  const toCurrency = document.getElementById("to-currency");
 
-  const brlLabel = document.getElementById("label-brl");
-  const usdLabel = document.getElementById("label-usd");
-
-  [brlLabel.textContent, usdLabel.textContent] = [
-    usdLabel.textContent,
-    brlLabel.textContent,
-  ];
+  const temp = fromCurrency.value;
+  fromCurrency.value = toCurrency.value;
+  toCurrency.value = temp;
 }
+
+// function switchLabels() {
+//   isBrlToUsd = !isBrlToUsd;
+
+//   const brlLabel = document.getElementById("label-brl");
+//   const usdLabel = document.getElementById("label-usd");
+
+//   [brlLabel.textContent, usdLabel.textContent] = [
+//     usdLabel.textContent,
+//     brlLabel.textContent,
+//   ];
+// }
 
 async function fetchExchangeRate(baseCurrency, targetCurrency) {
   try {
@@ -42,8 +51,13 @@ async function handleCurrencyConversion() {
     return;
   }
 
-  const baseCurrency = isBrlToUsd ? "BRL" : "USD";
-  const targetCurrency = isBrlToUsd ? "USD" : "BRL";
+  const baseCurrency = document.getElementById("from-currency").value;
+  const targetCurrency = document.getElementById("to-currency").value;
+
+  if (baseCurrency == targetCurrency) {
+    alert("Please select two different currencies");
+    return;
+  }
 
   const conversionRate = await fetchExchangeRate(baseCurrency, targetCurrency);
 
